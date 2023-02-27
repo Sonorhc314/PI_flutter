@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'history.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -34,6 +36,7 @@ class _Home extends State<MyClass> {
   String goal = "";
   String username = "user";
   final _textController = TextEditingController();
+  var history = HistoryState();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -77,7 +80,7 @@ class _Home extends State<MyClass> {
                           child: const Text('Cancel'),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context, 'OK'),
+                          onPressed: () => {Navigator.pop(context, 'OK'), history.addData(100)},
                           child: const Text('Submit'),
                         ),
                       ],
@@ -130,7 +133,7 @@ class _Home extends State<MyClass> {
                         borderRadius: BorderRadius.circular(50.0),
                       ))),
               onPressed: () {
-
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Testing(),));
               },
               child: Text("History".toUpperCase()),
             ),
