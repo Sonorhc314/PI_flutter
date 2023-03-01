@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'button.dart';
+import 'package:flutter_first/button.dart';
 
 // Class to represent a text button action
 class DialogAction {
@@ -24,11 +24,11 @@ class TextBoxDialogButton extends Button {
   TextBoxDialogButton({
     super.key,
     required super.buttonText,
-    required this.dialogTitle,
-    required this.textBoxHint,
+    this.dialogTitle,
+    this.textBoxHint,
     this.dialogActions,
   }) : super(onPressed: (BuildContext context) {
-    Widget title = Text(dialogTitle);
+    Widget title = Text(dialogTitle ?? buttonText);
 
     // Uses DialogAction list to generate TextButton action widgets
     List<Widget> actions = [];
@@ -68,10 +68,10 @@ class TextBoxDialogButton extends Button {
   });
 
   // The title of the dialog box
-  final String dialogTitle;
+  final String? dialogTitle;
 
   // The hint for the text box
-  final String textBoxHint;
+  final String? textBoxHint;
 
   // A list of DialogAction objects for the dialog box's text buttons
   final List<DialogAction>? dialogActions;

@@ -8,11 +8,11 @@ class DialogButton extends Button {
   DialogButton({
     super.key,
     required super.buttonText,
-    required this.dialogTitle,
+    this.dialogTitle,
     this.dialogText,
   }) : super(onPressed: (BuildContext context) {
     // Creates title and actions for the dialog box
-    Widget title = Text(dialogTitle);
+    Widget title = Text(dialogTitle ?? buttonText);
     List<Widget> actions = [
       TextButton(
         onPressed: () => Navigator.pop(context, 'OK'),
@@ -30,7 +30,7 @@ class DialogButton extends Button {
   });
 
   // The title of the dialog box
-  final String dialogTitle;
+  final String? dialogTitle;
 
   // The text in the main body of the dialog box
   final String? dialogText;

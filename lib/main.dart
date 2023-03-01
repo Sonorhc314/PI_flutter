@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_first/user_data.dart';
 import 'package:flutter_first/history.dart';
+
 import 'package:flutter_first/button.dart';
 import 'package:flutter_first/dialog_button.dart';
 import 'package:flutter_first/text_box_button.dart';
@@ -34,14 +37,17 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _Home();
+  State<Home> createState() => _HomeState();
 }
 
-class _Home extends State<Home> {
-  var history = HistoryState();
-  int dailyGoal = 0;
-  int weeklyGoal = 0;
+class _HomeState extends State<Home> {
+  // Default state values
+  int dailyGoal = 4000;
+  int weeklyGoal = 30000;
   String username = "User";
+
+  // Creates new user data table (later this can be fetched from database)
+  final UserData userData = UserData();
 
   @override
   Widget build(BuildContext context) {
@@ -55,37 +61,37 @@ class _Home extends State<Home> {
           const SizedBox(height: 8),
           Center(
             child: Text(
-              "Welcome, $username\n\nYour current goals:\n",
+              "Welcome, $username\n\nYour current progress:\n",
               style: const TextStyle(
                 fontSize: 20.0,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           Center(
             child: Text(
-              "Weekly goal: $weeklyGoal\n"
-                  "Daily goal: $dailyGoal",
+              "Daily progress: ${userData.getDailyTotal()}/$dailyGoal\n"
+              "Weekly progress: ${userData.getWeeklyTotal()}/$weeklyGoal",
               style: const TextStyle(
                 fontSize: 17.0,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 30),
           TextBoxDialogButton(
             buttonText: "Log Steps", 
-            dialogTitle: "Log Steps", 
             textBoxHint: "Enter steps...",
             dialogActions: [
               DialogAction("Submit", (TextEditingController t) {
                 int? steps = int.tryParse(t.text);
-                if (steps != null) history.addData(steps);
+                if (steps != null) setState(() => userData.addEntry(steps));
               }),
               DialogAction("Cancel", null)
             ],
           ),
           TextBoxDialogButton(
             buttonText: "Change/Set Goals", 
-            dialogTitle: "Change/Set Goals", 
             textBoxHint: "Enter new goal...",
             dialogActions: [
               DialogAction("Daily Goal", (TextEditingController t) {
@@ -104,16 +110,16 @@ class _Home extends State<Home> {
           Button(
             buttonText: "History",
             onPressed: (BuildContext context) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const Testing(),));
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => History(userData: userData),
+              ));
             },
           ),
           DialogButton(
             buttonText: "Recommendations",
-            dialogTitle: "Recommendations",
           ),
           DialogButton(
             buttonText: "Weekly Report",
-            dialogTitle: "Weekly Report",
           ),
         ],
       ),
