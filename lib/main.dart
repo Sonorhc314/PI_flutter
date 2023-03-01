@@ -67,7 +67,7 @@ class _Home extends State<MyClass> {
           ),
           const SizedBox(height: 30),
           Button(
-            Title: 'Log in number of steps',
+            title: 'Log in number of steps',
             content: 'Custom content',
             child: const Text('Log in number of steps'),
             onPressed: () {
@@ -105,7 +105,7 @@ class _Home extends State<MyClass> {
             },
           ),
           Button(
-            Title: 'Your goal',
+            title: 'Your goal',
             content: 'Custom content',
             child: const Text("Change/set the goal"),
             onPressed: () {
@@ -149,7 +149,7 @@ class _Home extends State<MyClass> {
             },
           ),
           Button(
-            Title: 'Custom Title',
+            title: 'Custom Title',
             content: 'Custom content',
             child: Text("History"),
             onPressed: () {
@@ -157,12 +157,12 @@ class _Home extends State<MyClass> {
             },
           ),
           Button(
-            Title: 'Recommendations',
+            title: 'Recommendations',
             content: 'Custom content',
             child: Text("Recommendations"),
           ),
           Button(
-            Title: 'Weekly report',
+            title: 'Weekly report',
             content: 'Custom content',
             child: Text("Weekly report"),
           ),
