@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  Function()? onPressed;
+  final Function()? onPressed;
   final Widget child;
-  final String Title;
-  final String Content;
+  final String title;
+  final String content;
 
-  Button({
+  const Button({
     Key? key,
     this.onPressed,
     required this.child,
-    required this.Title,
-    required this.Content,
+    required this.title,
+    required this.content,
   }) : super(key: key);
 
   @override
@@ -36,8 +36,8 @@ class Button extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text(Title),
-                      content: Text(Content),
+                      title: Text(title),
+                      content: Text(content),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () => Navigator.pop(context, 'OK'),

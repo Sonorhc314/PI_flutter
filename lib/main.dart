@@ -68,7 +68,7 @@ class _Home extends State<MyClass> {
           const SizedBox(height: 30),
           Button(
             Title: 'Log in number of steps',
-            Content: 'Custom content',
+            content: 'Custom content',
             child: const Text('Log in number of steps'),
             onPressed: () {
               showDialog(
@@ -106,7 +106,7 @@ class _Home extends State<MyClass> {
           ),
           Button(
             Title: 'Your goal',
-            Content: 'Custom content',
+            content: 'Custom content',
             child: const Text("Change/set the goal"),
             onPressed: () {
               showDialog(
@@ -150,7 +150,7 @@ class _Home extends State<MyClass> {
           ),
           Button(
             Title: 'Custom Title',
-            Content: 'Custom content',
+            content: 'Custom content',
             child: Text("History"),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Testing(),));
@@ -158,12 +158,12 @@ class _Home extends State<MyClass> {
           ),
           Button(
             Title: 'Recommendations',
-            Content: 'Custom content',
+            content: 'Custom content',
             child: Text("Recommendations"),
           ),
           Button(
             Title: 'Weekly report',
-            Content: 'Custom content',
+            content: 'Custom content',
             child: Text("Weekly report"),
           ),
         ],
