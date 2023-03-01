@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_first/button.dart';
 import 'package:flutter_first/history.dart';
+import 'package:flutter_first/button.dart';
+import 'package:flutter_first/dialog_button.dart';
+import 'package:flutter_first/text_box_button.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,28 +19,29 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Center(
-            child: Text("PI application"),
+            child: Text("PI Application"),
           ),
         ),
-        body: Center(
-          child: MyClass(),
+        body: const Center(
+          child: Home(),
         ),
       ),
     );
   }
 }
 
-class MyClass extends StatefulWidget {
+class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
-  State<MyClass> createState() => _Home();
+  State<Home> createState() => _Home();
 }
 
-class _Home extends State<MyClass> {
+class _Home extends State<Home> {
   var history = HistoryState();
-  String goalDay = "0";
-  String goalWeek = "0";
-  String username = "user";
-  final _textController = TextEditingController();
+  int dailyGoal = 0;
+  int weeklyGoal = 0;
+  String username = "User";
 
   @override
   Widget build(BuildContext context) {
@@ -58,113 +63,57 @@ class _Home extends State<MyClass> {
           ),
           Center(
             child: Text(
-              "Weekly goal: $goalWeek\n"
-                  "Daily goal: $goalDay",
+              "Weekly goal: $weeklyGoal\n"
+                  "Daily goal: $dailyGoal",
               style: const TextStyle(
                 fontSize: 17.0,
               ),
             ),
           ),
           const SizedBox(height: 30),
-          Button(
-            title: 'Log in number of steps',
-            content: 'Custom content',
-            child: const Text('Log in number of steps'),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context)=> AlertDialog(
-                  title: const Text('Log in number of steps'),
-                  content: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                        hintText: "Number of steps",
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              _textController.clear();
-                            },
-                            icon: const Icon(Icons.clear))
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        history.addData(int.parse(_textController.text));
-                        Navigator.pop(context, 'OK');},
-                      child: const Text('Submit'),
-                    ),
-                  ],
-                ),
-              );
-              // reRenderThePage() {
-            },
+          TextBoxDialogButton(
+            buttonText: "Log Steps", 
+            dialogTitle: "Log Steps", 
+            textBoxHint: "Enter steps...",
+            dialogActions: [
+              DialogAction("Submit", (TextEditingController t) {
+                int? steps = int.tryParse(t.text);
+                if (steps != null) history.addData(steps);
+              }),
+              DialogAction("Cancel", null)
+            ],
+          ),
+          TextBoxDialogButton(
+            buttonText: "Change/Set Goals", 
+            dialogTitle: "Change/Set Goals", 
+            textBoxHint: "Enter new goal...",
+            dialogActions: [
+              DialogAction("Daily Goal", (TextEditingController t) {
+                setState(() {
+                  dailyGoal = int.tryParse(t.text) ?? dailyGoal;
+                });
+              }),
+              DialogAction("Weekly Goal", (TextEditingController t) {
+                setState(() {
+                  weeklyGoal = int.tryParse(t.text) ?? weeklyGoal;
+                });
+              }),
+              DialogAction("Cancel", null)
+            ],
           ),
           Button(
-            title: 'Your goal',
-            content: 'Custom content',
-            child: const Text("Change/set the goal"),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context)=> AlertDialog(
-                  title: const Text("Enter the goal"),
-                  content: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                        hintText: "Enter new goal",
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              _textController.clear();
-                            },
-                            icon: const Icon(Icons.clear))
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {goalWeek = _textController.text;});
-                        Navigator.pop(context, 'OK');},
-                      child: const Text('Weekly goal'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {goalDay = _textController.text;});
-                        Navigator.pop(context, 'OK');},
-                      child: const Text('Daily goal'),
-                    ),
-                  ],
-                ),
-              );
-              // reRenderThePage() {
-            },
-          ),
-          Button(
-            title: 'Custom Title',
-            content: 'Custom content',
-            child: Text("History"),
-            onPressed: () {
+            buttonText: "History",
+            onPressed: (BuildContext context) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const Testing(),));
             },
           ),
-          Button(
-            title: 'Recommendations',
-            content: 'Custom content',
-            child: Text("Recommendations"),
+          DialogButton(
+            buttonText: "Recommendations",
+            dialogTitle: "Recommendations",
           ),
-          Button(
-            title: 'Weekly report',
-            content: 'Custom content',
-            child: Text("Weekly report"),
+          DialogButton(
+            buttonText: "Weekly Report",
+            dialogTitle: "Weekly Report",
           ),
         ],
       ),
