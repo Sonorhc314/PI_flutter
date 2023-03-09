@@ -80,29 +80,33 @@ class _HomeState extends State<Home> {
           ),
           const SizedBox(height: 30),
           TextBoxDialogButton(
-            buttonText: "Log Steps", 
+            buttonText: "Log Steps",
             textBoxHint: "Enter steps...",
             dialogActions: [
               DialogAction("Submit", (TextEditingController t) {
                 int? steps = int.tryParse(t.text);
-                if (steps != null) setState(() => userData.addEntry(steps));
+                if (steps != null && steps >= 0) {
+                  setState(() => userData.addEntry(steps));
+                }
               }),
               DialogAction("Cancel", null)
             ],
           ),
           TextBoxDialogButton(
-            buttonText: "Change/Set Goals", 
+            buttonText: "Change/Set Goals",
             textBoxHint: "Enter new goal...",
             dialogActions: [
               DialogAction("Daily Goal", (TextEditingController t) {
-                setState(() {
-                  dailyGoal = int.tryParse(t.text) ?? dailyGoal;
-                });
+                int? newDailyGoal = int.tryParse(t.text);
+                if (newDailyGoal != null && newDailyGoal >= 0) {
+                  setState(() => dailyGoal = newDailyGoal);
+                }
               }),
               DialogAction("Weekly Goal", (TextEditingController t) {
-                setState(() {
-                  weeklyGoal = int.tryParse(t.text) ?? weeklyGoal;
-                });
+                int? newWeeklyGoal = int.tryParse(t.text);
+                if (newWeeklyGoal != null && newWeeklyGoal >= 0) {
+                  setState(() => weeklyGoal = newWeeklyGoal);
+                }
               }),
               DialogAction("Cancel", null)
             ],
@@ -111,8 +115,10 @@ class _HomeState extends State<Home> {
             buttonText: "History",
             onPressed: (BuildContext context) {
               Navigator.push(
-                context, MaterialPageRoute(builder: (context) => History(userData: userData),
-              ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => History(userData: userData),
+                  ));
             },
           ),
           DialogButton(
